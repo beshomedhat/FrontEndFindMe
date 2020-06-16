@@ -1,0 +1,79 @@
+<div class="container my-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>My Items</mat-card-title>
+        <mat-card-subtitle>All Of My Items and all Actions</mat-card-subtitle>
+        <div class="spacer"></div>
+        <button
+          mat-button
+          color="primary"
+          aria-label="Add Item"
+          matTooltip="Add Item"
+          matTooltipPosition="left"
+          [routerLink]="['/dashboard/items/create']"
+          routerLinkActive="router-link-active"
+        >
+          <mat-icon>add_box</mat-icon>Add Item
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-selection-list [multiple]="false">
+          <mat-list-option *ngFor="let item of items">
+            <div class="items-list-contanier">
+              <!---->
+              <div class="right-content">
+                <mat-chip-list aria-label="Item Status">
+                  <mat-chip color="primary" selected>{{ item.name }}</mat-chip>
+                  <mat-chip color="accent" *ngIf="item.is_found == 1" selected
+                    >Found Item</mat-chip
+                  >
+                  <mat-chip color="warn" *ngIf="item.is_found == 0" selected
+                    >Lost Item</mat-chip
+                  >
+                </mat-chip-list>
+              </div>
+              <div class="left-content">
+                <button
+                  class="matBtn"
+                  color="warn"
+                  mat-icon-button
+                  aria-label="Delete Item"
+                  matTooltip="Delete Item"
+                  matTooltipPosition="left"
+                  (click)="deleteItem(item.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button
+                  class="matBtn"
+                  mat-icon-button
+                  color="accent"
+                  aria-label="Update Item"
+                  matTooltip="Update Item"
+                  matTooltipPosition="left"
+                  [routerLink]="['/dashboard/items/update', item.id]"
+                  routerLinkActive="router-link-active"
+                >
+                  <mat-icon>settings</mat-icon>
+                </button>
+                <button
+                  class="matBtn"
+                  mat-icon-button
+                  color="primary"
+                  aria-label="View Item"
+                  matTooltip="View Item"
+                  matTooltipPosition="left"
+                  [routerLink]="['/dashboard/items/view', item.id]"
+                  routerLinkActive="router-link-active"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </div>
+              <!---->
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
