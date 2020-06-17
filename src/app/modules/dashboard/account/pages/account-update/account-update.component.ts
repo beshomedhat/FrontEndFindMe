@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { SnackbarService } from '@@shared/pages/snackbar/snackbar.service';
 import { ConfirmDialogService } from '@@shared/pages/dialogs/confirm-dialog/confirm.service';
-import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ItemsService } from '@@core/services/items.service';
 import { Subscription } from 'rxjs';
@@ -25,17 +24,10 @@ const httpOptions = {
   styleUrls: ['./account-update.component.scss'],
 })
 export class AccountUpdateComponent implements OnInit, OnDestroy {
-  subscription1$: Subscription;
-  subscription2$: Subscription;
-  subscription5$: Subscription;
   userForm: FormGroup;
   data: {};
-
-  images = [];
-
+  images;
   isLoadingResults = false;
-  isLoadingImages = false;
-
   options = {
     title: 'Are Sure To Submit & Update This Part  ',
     message:
@@ -51,8 +43,6 @@ export class AccountUpdateComponent implements OnInit, OnDestroy {
     private snackbarService: SnackbarService,
     private router: Router,
     private actRoute: ActivatedRoute,
-    private itemService: ItemsService,
-    private http: HttpClient,
     private authServ: AuthService,
     private dialogService: ConfirmDialogService
   ) {}
@@ -60,16 +50,15 @@ export class AccountUpdateComponent implements OnInit, OnDestroy {
   /****************** ngOnInit Function************************/
   ngOnInit(): void {
     /*-----------------------ChangePassword--------------------------------*/
-    let confirmButton = document.getElementById("confirmChangePass");
-    confirmButton.addEventListener("click" , function(){
-      confirmButton.classList.add("hide");
-      document.getElementById("showChangePassword").classList.remove("hide");
-    });
+    // let confirmButton = document.getElementById('confirmChangePass');
+    // confirmButton.addEventListener('click', function () {
+    //   confirmButton.classList.add('hide');
+    //   document.getElementById('showChangePassword').classList.remove('hide');
+    // });
     /*-------------------------------------------------------*/
-    this.subscription1$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.data = res['item'];
-      this.data = this.data['user'];
-      console.log(this.data)
+      console.log(res);
     });
     this.userForm = this.fb.group({
       name: [this.data['name'], [Validators.required, Validators.minLength(3)]],
@@ -93,32 +82,20 @@ export class AccountUpdateComponent implements OnInit, OnDestroy {
 
   /****************** onFileChange Function************************/
   onFileChange(event) {
-    this.isLoadingImages = true;
     if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-        var reader = new FileReader();
-        reader.onload = (event: any) => {
-          this.images.push(event.target.result);
-          this.userForm.patchValue({
-            fileSource: this.images,
-          });
-        };
-        reader.readAsDataURL(event.target.files[i]);
-      }
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.data['photo'] = event.target.result;
+        this.images = event.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
-    this.isLoadingImages = false;
   }
 
   /****************** Submit Function************************/
   onSubmit() {
     let newData = {};
-    if (
-      this.userForm.get('file').value !== null &&
-      this.userForm.get('file').value !== ''
-    ) {
-      newData['photo'] = this.images[0];
-    }
+    newData['photo'] = this.images ? this.images : this.data['photo'];
     if (this.data['email'] !== this.userForm.get('email').value) {
       newData['email'] = this.userForm.get('email').value;
     }
@@ -132,33 +109,26 @@ export class AccountUpdateComponent implements OnInit, OnDestroy {
     this.dialogService.confirmed().subscribe((confirmed) => {
       if (confirmed) {
         this.isLoadingResults = true;
-        this.subscription2$ = this.authServ
-          .updateProfileData(newData)
-          .subscribe(
-            (next) => {
-              this.isLoadingResults = false;
-              this.snackbarService.show(
-                'Profile Data Updated successfully',
-                'success'
-              );
-              this.router.navigateByUrl('/dashboard/account/details');
-            },
-            (err) => {
-              console.log('err :', err);
-              this.isLoadingResults = false;
-              this.snackbarService.show(
-                err['error']['errors']['name'],
-                'danger'
-              );
-            }
-          );
+        console.log('newData', newData);
+        this.authServ.updateProfileData(newData).subscribe(
+          (next) => {
+            this.isLoadingResults = false;
+            this.snackbarService.show(
+              'Profile Data Updated successfully',
+              'success'
+            );
+            this.router.navigateByUrl('/dashboard/account/details');
+          },
+          (err) => {
+            console.log('err :', err);
+            this.isLoadingResults = false;
+            this.snackbarService.show(err['error']['errors']['name'], 'danger');
+          }
+        );
       }
     });
   } //end of submit
 
   /****************** ngOnDestroy Function************************/
-  ngOnDestroy() {
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-  } //end of ngOnDestroy
+  ngOnDestroy() {} //end of ngOnDestroy
 } //end of Class

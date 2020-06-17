@@ -6,6 +6,7 @@ import { NotFoundComponent } from '@@shared/pages/not-found/not-found.component'
 import { GuestGuardService } from '@@core/guards/guest.guard';
 import { MainNavComponent } from '@@shared/layouts/main-nav/main-nav.component';
 import { UserDetailsResolver } from '@@core/guards/resolvers/UserAuthResolvers/user-details.resolver';
+import { AuthGuard } from '@@core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
       },
     ],
     resolve: { item: UserDetailsResolver },
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',

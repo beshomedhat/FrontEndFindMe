@@ -102,4 +102,24 @@ export class ItemsService {
       catchError((e) => throwError(e))
     );
   }
+  uploadPersonFaces(data: object) {
+    return this.http
+      .post(`${env.apiRoot}/auth/persons/faces`, data, httpOptions)
+      .pipe(
+        map((res) => {
+          return res;
+        }),
+        catchError((e) => throwError(e))
+      );
+  }
+  getItemByName(data: object) {
+    return this.http
+      .post(`${env.apiRoot}/auth/getitembyname`, data, httpOptions)
+      .pipe(
+        map((res) => {
+          return res['data'];
+        }),
+        catchError((e) => throwError(e))
+      );
+  }
 } //end of class

@@ -19,8 +19,6 @@ export class AccountDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.authServ.getDetails().subscribe((res) => {
       this.userDetails = res['data'];
-      this.userDetails = this.userDetails['user']
-      console.log('eeeeeeeeeeee', this.userDetails);
     });
   }
 }
