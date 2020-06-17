@@ -27,11 +27,11 @@ const httpOptions = {
   styleUrls: ['./items-create.component.scss'],
 })
 export class ItemsCreateComponent implements OnInit, OnDestroy {
-  subscription1$: Subscription;
-  subscription2$: Subscription;
-  subscription4$: Subscription;
-  subscription3$: Subscription;
-  subscription5$: Subscription;
+  // subscription1$: Subscription;
+  // subscription2$: Subscription;
+  // subscription4$: Subscription;
+  // subscription3$: Subscription;
+  // subscription5$: Subscription;
   images = [];
   itemsForm: FormGroup;
   categories: Category[] = [];
@@ -65,7 +65,7 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
 
   /****************** ngOnInit Function************************/
   ngOnInit(): void {
-    this.subscription1$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.categories = res['item']['data'];
     });
     this.itemsForm = this.fb.group({
@@ -80,32 +80,25 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
       fileSource: new FormControl('', [Validators.required]),
     });
     this.isLoadingResults = false;
-    this.subscription2$ = this.itemsForm.controls.itemCategory.valueChanges.subscribe(
-      (res) => {
-        this.subscription3$ = this.apiserv
-          .getAllCatSubcats(res)
-          .subscribe((data) => {
-            this.subCategories = data['data'];
+    this.itemsForm.controls.itemCategory.valueChanges.subscribe((res) => {
+      this.apiserv.getAllCatSubcats(res).subscribe((data) => {
+        this.subCategories = data['data'];
+      });
+    });
+    this.itemsForm.controls.location.valueChanges.subscribe((res) => {
+      if (res !== '' && res !== null && res !== ' ') {
+        let data = { query: res, type: 'address' };
+        this.http
+          .post(
+            'https://places-dsn.algolia.net/1/places/query',
+            data,
+            httpOptions
+          )
+          .subscribe((locations) => {
+            this.filteredOptions = locations['hits'];
           });
       }
-    );
-    this.subscription5$ = this.itemsForm.controls.location.valueChanges.subscribe(
-      (res) => {
-        if (res !== '' && res !== null && res !== ' ') {
-          let data = { query: res, type: 'address' };
-          this.http
-            .post(
-              'https://places-dsn.algolia.net/1/places/query',
-              data,
-              httpOptions
-            )
-            .subscribe((locations) => {
-              this.filteredOptions = locations['hits'];
-            });
-        }
-      }
-    );
-    
+    });
   } //end of ngOnInit
 
   /****************** File uploading Function************************/
@@ -147,43 +140,38 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
       images: this.itemsForm.get('fileSource').value,
     };
     this.dialogService.open(this.options);
-    this.subscription4$ = this.dialogService
-      .confirmed()
-      .subscribe((confirmed) => {
-        if (confirmed) {
-          this.isLoadingResults = true;
-          this.itemService
-            .addItem(this.data, 'items')
-            .toPromise()
-            .then((next) => {
-              this.isLoadingResults = false;
-              this.snackbarService.show('Item Created successfully', 'success');
-              this.router.navigateByUrl('/dashboard/items/options', {
-                state: {
-                  id: next['data']['subcat_id'],
-                  item_id: next['data']['id'],
-                },
-              });
-            })
-            .catch((err) => {
-              console.log('err :', err);
-              this.isLoadingResults = false;
-              this.snackbarService.show(
-                err['error']['errors']['name'],
-                'danger'
-              );
+    this.dialogService.confirmed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.isLoadingResults = true;
+        this.itemService
+          .addItem(this.data, 'items')
+          .toPromise()
+          .then((next) => {
+            this.isLoadingResults = false;
+            this.snackbarService.show('Item Created successfully', 'success');
+            this.router.navigateByUrl('/dashboard/items/options', {
+              state: {
+                id: next['data']['subcat_id'],
+                item_id: next['data']['id'],
+              },
             });
-        }
-      });
+          })
+          .catch((err) => {
+            console.log('err :', err);
+            this.isLoadingResults = false;
+            this.snackbarService.show(err['error']['errors']['name'], 'danger');
+          });
+      }
+    });
   } //end of submit
 
   /****************** DEstroy Function************************/
   ngOnDestroy(): void {
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-    this.subscription3$.unsubscribe();
-    this.subscription4$.unsubscribe();
-    this.subscription5$.unsubscribe();
+    // this.subscription1$.unsubscribe();
+    // this.subscription2$.unsubscribe();
+    // this.subscription3$.unsubscribe();
+    // this.subscription4$.unsubscribe();
+    // this.subscription5$.unsubscribe();
   } //end of destroy
 
   // https://places-dsn.algolia.net

@@ -10,15 +10,29 @@
             Uploadind....
           </mat-spinner>
         </div>
-        <div class="tags-form ">
-          <form class="text-center" [formGroup]="itemsForm" (ngSubmit)="onSubmit()">
+        <div class="tags-form">
+          <form
+            class="text-center"
+            [formGroup]="itemsForm"
+            (ngSubmit)="onSubmit()"
+          >
             <!------------------------ IS Found-------------------------->
             <div class="container">
               <div class="form cf">
                 <section class="plan cf">
-                  <input formControlName="is_found" type="radio" name="radio1" id="free" [value]="1"><label class="free-label four col" for="free">Found</label>
-                  <input formControlName="is_found" type="radio" name="radio1" id="basic" [value]="0"><label class="basic-label four col" for="basic">Lost</label>
-                </section>	
+                  <input
+                    formControlName="is_found"
+                    type="radio"
+                    id="free"
+                    [value]="1"
+                  /><label class="free-label four col" for="free">Found</label>
+                  <input
+                    formControlName="is_found"
+                    type="radio"
+                    id="basic"
+                    [value]="0"
+                  /><label class="basic-label four col" for="basic">Lost</label>
+                </section>
               </div>
             </div>
             <!------------------------ Name-------------------------->
@@ -59,10 +73,18 @@
                   formControlName="itemCategory"
                   placeholder="Select Category"
                 >
-                  <mat-option *ngFor="let cat of categories" [value]="cat.id" class="my-2">
-                    <img src="./../../../../../../assets/imgs/categories/{{cat.name}}.svg" alt="item"class=" imgCat" /> 
-                    {{ cat.name }}
-                  </mat-option>
+                  <ng-container *ngFor="let cat of categories">
+                    <mat-option [value]="cat.id" *ngIf="cat.id != 11">
+                      <img
+                        src="./../../../../../../assets/imgs/categories/{{
+                          cat.name
+                        }}.svg"
+                        alt="item"
+                        class="imgCat"
+                      />
+                      {{ cat.name }}
+                    </mat-option>
+                  </ng-container>
                 </mat-select>
                 <mat-icon
                   matSuffix
