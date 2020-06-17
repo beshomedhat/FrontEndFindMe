@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -50,6 +56,8 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   filteredOptions;
+  @ViewChild('locationSpanlat') locationSpanlat: ElementRef;
+  @ViewChild('locationSpanlan') locationSpanlan: ElementRef;
   /****************** constructor Function************************/
   constructor(
     private fb: FormBuilder,
@@ -134,6 +142,8 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
       category_id: this.itemsForm.get('itemCategory').value,
       subcat_id: this.itemsForm.get('itemsubCategory').value,
       location: this.itemsForm.get('location').value,
+      lat: parseFloat(this.locationSpanlat.nativeElement.innerHTML),
+      lan: parseFloat(this.locationSpanlan.nativeElement.innerHTML),
       is_found: this.itemsForm.get('is_found').value,
       des: this.itemsForm.get('des').value,
       date: newDate,

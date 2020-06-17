@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -46,6 +52,8 @@ export class ItemsUpdateComponent implements OnInit, OnDestroy {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   filteredOptions;
+  @ViewChild('locationSpanlat') locationSpanlat: ElementRef;
+  @ViewChild('locationSpanlan') locationSpanlan: ElementRef;
   /****************** constructor Function************************/
   constructor(
     private fb: FormBuilder,
@@ -148,6 +156,18 @@ export class ItemsUpdateComponent implements OnInit, OnDestroy {
       date: newDate,
       images: AllImages,
     };
+    if (this.itemsForm.get('location').value !== this.data['location']) {
+      this.data['lat'] = parseFloat(
+        this.locationSpanlat.nativeElement.innerHTML
+      );
+      this.data['lan'] = parseFloat(
+        this.locationSpanlan.nativeElement.innerHTML
+      );
+    } else {
+      this.data['lat'] = this.data['lat'];
+      this.data['lan'] = this.data['lan'];
+    }
+
     this.dialogService.open(this.options);
     this.dialogService.confirmed().subscribe((confirmed) => {
       if (confirmed) {

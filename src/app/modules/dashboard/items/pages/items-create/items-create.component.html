@@ -142,35 +142,6 @@
               </mat-form-field>
             </p>
             <!------------------------ Location-------------------------->
-            <!-- <p>
-              <mat-form-field appearance="outline" class="w-75">
-                <mat-label>Location</mat-label>
-                <input
-                  matInput
-                  formControlName="location"
-                  placeholder="Choose Location..."
-                />
-                <mat-icon matSuffix *ngIf="!itemsForm.controls.location.errors"
-                  >sentiment_very_satisfied</mat-icon
-                >
-                <mat-icon matSuffix *ngIf="itemsForm.controls.location.errors"
-                  >sentiment_dissatisfied</mat-icon
-                >
-                <mat-hint
-                  align="end"
-                  *ngIf="
-                    itemsForm.controls.location.errors?.required &&
-                    itemsForm.controls.location.touched
-                  "
-                  >This Field Is Required</mat-hint
-                >
-                <mat-hint
-                  align="end"
-                  *ngIf="itemsForm.controls.location.errors?.minlength"
-                  >Min Length Is 10 Characters</mat-hint
-                >
-              </mat-form-field>
-            </p> -->
             <p>
               <mat-form-field class="example-full-width">
                 <input
@@ -198,6 +169,13 @@
 
                       {{ hits["locale_names"]["default"] }}
                     </span>
+
+                    <span #locationSpanlat style="display: none;">{{
+                      hits["_geoloc"]["lat"]
+                    }}</span>
+                    <span #locationSpanlan style="display: none;">{{
+                      hits["_geoloc"]["lng"]
+                    }}</span>
                   </mat-option>
                 </mat-autocomplete>
 
@@ -222,7 +200,6 @@
                 >
               </mat-form-field>
             </p>
-
             <!------------------------ Date-------------------------->
             <p>
               <mat-form-field>
