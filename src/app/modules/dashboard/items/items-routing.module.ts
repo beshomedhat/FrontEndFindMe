@@ -18,6 +18,7 @@ import { ItemUpdateResolver } from '@@core/guards/resolvers/ItemsResolvers/item-
 import { ItemUpdateOtpionsResolver } from '@@core/guards/resolvers/ItemsResolvers/items-update-options.resolver';
 import { ItemUpdateQuestionsResolver } from '@@core/guards/resolvers/ItemsResolvers/items-upqestions.resolver';
 import { ItemDetailsResolver } from '@@core/guards/resolvers/ItemsResolvers/item-details.resolver';
+import { TestSearchComponent } from './pages/test-search/test-search.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
     path: 'upquestions/:id',
     component: UpadteQuestionsComponent,
     resolve: { item: ItemUpdateQuestionsResolver },
+  },
+  {
+    path: 'test',
+    component: TestSearchComponent,
   },
   {
     path: '**',

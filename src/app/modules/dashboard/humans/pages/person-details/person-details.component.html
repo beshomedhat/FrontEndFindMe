@@ -122,6 +122,31 @@
                     </button>
                   </td>
                 </tr>
+                <tr>
+                  <th scope="row">
+                    {{
+                      8 +
+                        itemDetails["imagesCount"] +
+                        itemDetails["optionsCount"]
+                    }}
+                  </th>
+                  <td>
+                    IF This Person Not Matching
+                  </td>
+                  <td class="text-center">
+                    <button
+                      class="matBtn"
+                      color="warn"
+                      mat-raised-button
+                      aria-label="Add Person"
+                      matTooltip="Add Person"
+                      matTooltipPosition="left"
+                      [routerLink]="['/dashboard/humans/persons/create']"
+                    >
+                      Add Person
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -19,8 +19,6 @@ import { ItemUpdateQuestionsResolver } from '@@core/guards/resolvers/ItemsResolv
 import { PersonsUpdateOtpionsResolver } from '@@core/guards/resolvers/Persons/persons-update-options.resolver';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'configuration', pathMatch: 'full' },
-
   { path: 'persons/create', component: PersonsCreateComponent },
   {
     path: 'persons/options',

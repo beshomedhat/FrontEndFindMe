@@ -17,7 +17,7 @@ import { DatePipe } from '@angular/common';
 import { UpdateOptionsComponent } from './pages/update-options/update-options.component';
 import { ItemsQuestionsComponent } from './pages/items-questions/items-questions.component';
 import { UpadteQuestionsComponent } from './pages/upadte-questions/upadte-questions.component';
-
+import { TestSearchComponent } from './pages/test-search/test-search.component';
 @NgModule({
   declarations: [
     ItemsCreateComponent,
@@ -28,6 +28,7 @@ import { UpadteQuestionsComponent } from './pages/upadte-questions/upadte-questi
     UpdateOptionsComponent,
     ItemsQuestionsComponent,
     UpadteQuestionsComponent,
+    TestSearchComponent,
   ],
   imports: [
     CommonModule,
