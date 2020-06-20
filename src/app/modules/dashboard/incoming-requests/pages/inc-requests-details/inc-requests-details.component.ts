@@ -12,7 +12,6 @@ import { RequestsService } from '@@core/services/requests.service';
   styleUrls: ['./inc-requests-details.component.scss'],
 })
 export class IncRequestsDetailsComponent implements OnInit, OnDestroy {
-  subscription1$: Subscription;
   requestDetails;
   options = {
     title: 'Are Sure To Reject This Request',
@@ -30,7 +29,7 @@ export class IncRequestsDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription1$ = this.activatedRoute.data.subscribe((res) => {
+    this.activatedRoute.data.subscribe((res) => {
       this.requestDetails = res['item'];
     });
   }
@@ -69,7 +68,5 @@ export class IncRequestsDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.subscription1$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of class

@@ -8,9 +8,15 @@ import { SharedModule } from '@@shared/shared.module';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountDetailsComponent } from './pages/account-details/account-details.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { AccountUpdateComponent } from './pages/account-update/account-update.component';
 
 @NgModule({
-  declarations: [AccountDetailsComponent],
+  declarations: [
+    AccountDetailsComponent,
+    ChangePasswordComponent,
+    AccountUpdateComponent,
+  ],
   imports: [
     CommonModule,
     AccountRoutingModule,
@@ -19,6 +25,17 @@ import { AccountDetailsComponent } from './pages/account-details/account-details
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  exports: [
+    AccountDetailsComponent,
+    ChangePasswordComponent,
+    AccountUpdateComponent,
+  ],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { floatLabel: 'always' },
+    },
   ],
 })
 export class AccountModule {}

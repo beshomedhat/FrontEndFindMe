@@ -26,7 +26,7 @@ export class ItemsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.itemService.getAllItems('items').subscribe((res) => {
       this.items = res['data'];
-
+      console.log(' this.items ', this.items);
     });
   }
   deleteItem(id) {

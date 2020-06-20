@@ -4,6 +4,7 @@ import { AccountDetailsComponent } from './pages/account-details/account-details
 import { NotFoundComponent } from '@@shared/pages/not-found/not-found.component';
 import { AccountUpdateComponent } from './pages/account-update/account-update.component';
 import { UserDetailsResolver } from '@@core/guards/resolvers/UserAuthResolvers/user-details.resolver';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
     path: 'update',
     component: AccountUpdateComponent,
     resolve: { item: UserDetailsResolver },
+  },
+  {
+    path: 'changepass',
+    component: ChangePasswordComponent,
   },
   {
     path: '**',

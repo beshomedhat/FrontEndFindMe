@@ -21,7 +21,6 @@ export class UpadteQuestionsComponent implements OnInit, OnDestroy {
   item_id;
   questionItem: FormGroup;
   data: {};
-  subcription1$: Subscription;
   constructor(
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
@@ -31,7 +30,7 @@ export class UpadteQuestionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subcription1$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.item_id = res['item'][0]['item_id'];
       this.data = res['item'][0]['data'];
     });
@@ -88,7 +87,5 @@ export class UpadteQuestionsComponent implements OnInit, OnDestroy {
         this.snackbarService.show('Error', 'danger');
       });
   }
-  ngOnDestroy() {
-    this.subcription1$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of Class

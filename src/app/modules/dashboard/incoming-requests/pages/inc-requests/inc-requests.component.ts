@@ -2,11 +2,9 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ConfirmDialogService } from '@@shared/pages/dialogs/confirm-dialog/confirm.service';
 import { SnackbarService } from '@@shared/pages/snackbar/snackbar.service';
 import { Request } from '@@shared/models/request';
-import { ItemsService } from '@@core/services/items.service';
 import { Router } from '@angular/router';
 import { RequestsService } from '@@core/services/requests.service';
 import { Subscription } from 'rxjs';
-// import { PusherService } from '@@core/services/pusher.service';
 @Component({
   selector: 'app-inc-requests',
   templateUrl: './inc-requests.component.html',
@@ -14,7 +12,6 @@ import { Subscription } from 'rxjs';
 })
 export class IncRequestsComponent implements OnInit, OnDestroy {
   requests: Request[] = [];
-  subscription1$: Subscription;
   options = {
     title: 'Are Sure To Reject This Request',
     message: 'Please Take An Action { You Press Esc or Enter to the Action }',
@@ -25,11 +22,10 @@ export class IncRequestsComponent implements OnInit, OnDestroy {
     private dialogService: ConfirmDialogService,
     private snackbarService: SnackbarService,
     private reqServ: RequestsService,
-    private router: Router
-  ) // private pusherServ: PusherService
-  {}
+    private router: Router // private pusherServ: PusherService
+  ) {}
   ngOnInit() {
-    this.subscription1$ = this.reqServ.getAllRequests().subscribe((res) => {
+    this.reqServ.getAllRequests().subscribe((res) => {
       this.requests = res['data'];
     });
     // console.log('res', this.pusherServ.channel);
@@ -70,7 +66,5 @@ export class IncRequestsComponent implements OnInit, OnDestroy {
         });
     }
   }
-  ngOnDestroy() {
-    this.subscription1$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of class

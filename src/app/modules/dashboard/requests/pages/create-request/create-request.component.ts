@@ -22,7 +22,6 @@ export class CreateRequestComponent implements OnInit, OnDestroy {
   questionItem: FormGroup;
   data: {};
   newData = [];
-  subscription$: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +32,7 @@ export class CreateRequestComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.item_id = res['item'][0]['item_id'];
       this.data = res['item'][0]['data'];
     });
@@ -90,7 +89,5 @@ export class CreateRequestComponent implements OnInit, OnDestroy {
         this.snackbarService.show(err['error']['message'], 'danger');
       });
   }
-  ngOnDestroy() {
-    this.subscription$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of Class

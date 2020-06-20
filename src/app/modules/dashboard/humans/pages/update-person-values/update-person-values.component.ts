@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '@@core/http/api.service';
 import { ItemsService } from '@@core/services/items.service';
 import { DynamicFormComponent } from '@@shared/pages/dynamicForms/dynamic-form/dynamic-form.component';
-import { Subscription } from 'rxjs';
 import { FieldConfig } from '@@shared/models/field.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../../../../../environments/environment';
@@ -18,19 +17,15 @@ export class UpdatePersonValuesComponent implements OnInit {
   @ViewChild(DynamicFormComponent) formmmmm: DynamicFormComponent;
   itemsOptions: FormGroup;
   isLoadingResults = false;
-  inputSubScription: Subscription;
   regConfig: FieldConfig[] = [];
   item_id = 0;
   data: {};
   person_id;
   /****************** constructor Function************************/
   constructor(
-    private fb: FormBuilder,
     private snackbarService: SnackbarService,
     private router: Router,
-    private apiserv: ApiService,
     private actRoute: ActivatedRoute,
-    private itemService: ItemsService,
     private http: HttpClient
   ) {}
 

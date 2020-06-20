@@ -33,11 +33,6 @@ const httpOptions = {
   styleUrls: ['./items-create.component.scss'],
 })
 export class ItemsCreateComponent implements OnInit, OnDestroy {
-  // subscription1$: Subscription;
-  // subscription2$: Subscription;
-  // subscription4$: Subscription;
-  // subscription3$: Subscription;
-  // subscription5$: Subscription;
   images = [];
   itemsForm: FormGroup;
   categories: Category[] = [];
@@ -176,21 +171,5 @@ export class ItemsCreateComponent implements OnInit, OnDestroy {
   } //end of submit
 
   /****************** DEstroy Function************************/
-  ngOnDestroy(): void {
-    // this.subscription1$.unsubscribe();
-    // this.subscription2$.unsubscribe();
-    // this.subscription3$.unsubscribe();
-    // this.subscription4$.unsubscribe();
-    // this.subscription5$.unsubscribe();
-  } //end of destroy
-
-  // https://places-dsn.algolia.net
-  // $ curl -X POST 'https://places-dsn.algolia.net/1/places/query' --data '{"query": "Paris"}'
+  ngOnDestroy(): void {} //end of destroy
 } //end of Class
-// this.http
-// .post('https://places-dsn.algolia.net/1/places/query', data, {
-//   headers: {
-//     'X-Algolia-Application-Id': 'VNP1XYFNSF',
-//     'X-Algolia-API-Key: YourAPIKey': '43313045a7a3e98b65b0cb53cdc3cfcc',
-//   },
-// })

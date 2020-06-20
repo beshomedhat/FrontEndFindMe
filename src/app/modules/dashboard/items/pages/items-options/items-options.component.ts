@@ -22,8 +22,6 @@ export class ItemsOptionsComponent implements OnInit, OnDestroy {
   regConfig: FieldConfig[] = [];
   item_id = 0;
   data: {};
-  subscription1$: Subscription;
-  subscription2$: Subscription;
 
   /****************** constructor Function************************/
   constructor(
@@ -38,7 +36,7 @@ export class ItemsOptionsComponent implements OnInit, OnDestroy {
 
   /****************** ngOnInit Function************************/
   ngOnInit(): void {
-    this.subscription1$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.item_id = res['item'][0]['item_id'];
       const btn = {
         type: 'button',
@@ -66,7 +64,7 @@ export class ItemsOptionsComponent implements OnInit, OnDestroy {
       this.data[Object.entries(value)[i][0]] = Object.entries(value)[i][1];
     }
     this.isLoadingResults = true;
-    this.subscription2$ = this.http
+    this.http
       .post(`${env.apiRoot}/auth/items/values`, this.data, {
         headers: {
           'Content-Type': 'application/json',
@@ -90,8 +88,5 @@ export class ItemsOptionsComponent implements OnInit, OnDestroy {
   } //end of submit
 
   /****************** Destroy Function************************/
-  ngOnDestroy(): void {
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-  } //end of destroy
+  ngOnDestroy(): void {} //end of destroy
 } //end of  Class

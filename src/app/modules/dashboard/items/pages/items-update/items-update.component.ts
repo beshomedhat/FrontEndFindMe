@@ -30,9 +30,6 @@ const httpOptions = {
   styleUrls: ['./items-update.component.scss'],
 })
 export class ItemsUpdateComponent implements OnInit, OnDestroy {
-  subscription1$: Subscription;
-  subscription2$: Subscription;
-  subscription5$: Subscription;
   images = [];
   old_images = [];
   itemsForm: FormGroup;
@@ -68,7 +65,7 @@ export class ItemsUpdateComponent implements OnInit, OnDestroy {
 
   /****************** ngOnInit Function************************/
   ngOnInit(): void {
-    this.subscription1$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.data = res['item'];
       this.old_images = res['item']['images'];
       this.itemID = this.data['id'];
@@ -88,22 +85,20 @@ export class ItemsUpdateComponent implements OnInit, OnDestroy {
       file: new FormControl(''),
       fileSource: new FormControl(''),
     });
-    this.subscription5$ = this.itemsForm.controls.location.valueChanges.subscribe(
-      (res) => {
-        if (res !== '' && res !== null && res !== ' ') {
-          let data = { query: res, type: 'address' };
-          this.http
-            .post(
-              'https://places-dsn.algolia.net/1/places/query',
-              data,
-              httpOptions
-            )
-            .subscribe((locations) => {
-              this.filteredOptions = locations['hits'];
-            });
-        }
+    this.itemsForm.controls.location.valueChanges.subscribe((res) => {
+      if (res !== '' && res !== null && res !== ' ') {
+        let data = { query: res, type: 'address' };
+        this.http
+          .post(
+            'https://places-dsn.algolia.net/1/places/query',
+            data,
+            httpOptions
+          )
+          .subscribe((locations) => {
+            this.filteredOptions = locations['hits'];
+          });
       }
-    );
+    });
   }
 
   /****************** onFileChange Function************************/
@@ -172,36 +167,27 @@ export class ItemsUpdateComponent implements OnInit, OnDestroy {
     this.dialogService.confirmed().subscribe((confirmed) => {
       if (confirmed) {
         this.isLoadingResults = true;
-        this.subscription2$ = this.itemService
-          .updateItem(this.itemID, this.data, 'items')
-          .subscribe(
-            (next) => {
-              this.isLoadingResults = false;
-              this.snackbarService.show('Item Updated successfully', 'success');
-              this.router.navigateByUrl('/dashboard/items/upoptions', {
-                state: {
-                  id: this.subcat,
-                  item_id: this.itemID,
-                },
-              });
-            },
-            (err) => {
-              console.log('err :', err);
-              this.isLoadingResults;
-              this.snackbarService.show(
-                err['error']['errors']['name'],
-                'danger'
-              );
-            }
-          );
+        this.itemService.updateItem(this.itemID, this.data, 'items').subscribe(
+          (next) => {
+            this.isLoadingResults = false;
+            this.snackbarService.show('Item Updated successfully', 'success');
+            this.router.navigateByUrl('/dashboard/items/upoptions', {
+              state: {
+                id: this.subcat,
+                item_id: this.itemID,
+              },
+            });
+          },
+          (err) => {
+            console.log('err :', err);
+            this.isLoadingResults;
+            this.snackbarService.show(err['error']['errors']['name'], 'danger');
+          }
+        );
       }
     });
   } //end of submit
 
   /****************** ngOnDestroy Function************************/
-  ngOnDestroy() {
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-    this.subscription5$.unsubscribe();
-  } //end of ngOnDestroy
+  ngOnDestroy() {} //end of ngOnDestroy
 } //end of Class

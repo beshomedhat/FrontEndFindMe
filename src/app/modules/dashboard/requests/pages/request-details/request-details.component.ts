@@ -11,7 +11,6 @@ import { ConfirmDialogService } from '@@shared/pages/dialogs/confirm-dialog/conf
   styleUrls: ['./request-details.component.scss'],
 })
 export class RequestDetailsComponent implements OnInit, OnDestroy {
-  subscription1$: Subscription;
   requestDetails;
   options = {
     title: 'Are Sure To Delete This Item',
@@ -29,7 +28,7 @@ export class RequestDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription1$ = this.activatedRoute.data.subscribe((res) => {
+    this.activatedRoute.data.subscribe((res) => {
       this.requestDetails = res['item'];
     });
   }
@@ -55,7 +54,5 @@ export class RequestDetailsComponent implements OnInit, OnDestroy {
     // this.apiserv.deleteCheck(id, value);
   }
 
-  ngOnDestroy() {
-    this.subscription1$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of class

@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@@core/services/chat.service';
 import { AuthService } from 'app/@auth/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  FormGroup,
-  FormGroupName,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-main',
@@ -26,8 +21,6 @@ export class ChatMainComponent implements OnInit {
   chatForm: FormGroup;
   constructor(
     private chatServ: ChatService,
-    private authServ: AuthService,
-    private router: Router,
     private actRoute: ActivatedRoute
   ) {}
 

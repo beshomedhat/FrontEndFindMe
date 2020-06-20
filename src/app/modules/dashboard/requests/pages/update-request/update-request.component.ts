@@ -23,7 +23,6 @@ export class UpdateRequestComponent implements OnInit, OnDestroy {
   data: {};
   newData = [];
   request_id;
-  subscription$: Subscription;
   constructor(
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
@@ -33,7 +32,7 @@ export class UpdateRequestComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription$ = this.actRoute.data.subscribe((res) => {
+    this.actRoute.data.subscribe((res) => {
       this.item_id = res['item']['item_id'];
       this.data = res['item'];
     });
@@ -100,7 +99,5 @@ export class UpdateRequestComponent implements OnInit, OnDestroy {
         this.snackbarService.show(err['error']['message'], 'danger');
       });
   }
-  ngOnDestroy() {
-    this.subscription$.unsubscribe();
-  }
+  ngOnDestroy() {}
 } //end of Class
