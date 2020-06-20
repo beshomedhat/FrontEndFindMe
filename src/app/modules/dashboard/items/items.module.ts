@@ -54,15 +54,6 @@ import { UpadteQuestionsComponent } from './pages/upadte-questions/upadte-questi
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { floatLabel: 'always' },
     },
-
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { floatLabel: 'always' },
-    },
   ],
 })
 export class ItemsModule {}

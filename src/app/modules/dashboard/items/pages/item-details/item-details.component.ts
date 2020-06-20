@@ -32,9 +32,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe((res) => {
       this.itemDetails = res['item'];
     });
-
     this.isRequested = this.router.url.includes('show');
-    console.log('url', this.isRequested);
   }
 
   deleteItem(id: number) {

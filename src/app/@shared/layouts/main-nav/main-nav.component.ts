@@ -29,7 +29,7 @@ export class MainNavComponent implements OnInit {
   userDetails = {};
   defImg = '../../../../assets/imgs/undraw_profile_pic_ic5t.svg';
   /*-------------------AllNotifications------------------------*/
-  notificationsNumber = '';
+  notificationsNumber: number;
   AllNotifications = [];
   /*---------------------BreakPoints Ratio---------------------------*/
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -84,7 +84,6 @@ export class MainNavComponent implements OnInit {
     });
     /*---------------- For notification-------------------*/
     this.notificationServ.getAllNotifictions().subscribe((res) => {
-      console.log('res res : ', res);
       this.notificationsNumber = res.length;
       res.forEach((element) => {
         let elementData = [];
@@ -100,7 +99,7 @@ export class MainNavComponent implements OnInit {
           elementData['icon'] = 'wifi_protected_setup';
         }
         if (element['type'].includes('MatchingItems')) {
-          elementData['url'] = 'dashboard/matching';
+          elementData['url'] = '/dashboard/matching';
           elementData['icon'] = 'group_work';
         }
         if (element['type'].includes('SendMessage')) {
@@ -114,6 +113,12 @@ export class MainNavComponent implements OnInit {
   } //end Of NgONInit
   markAsReaded(id: string) {
     this.notificationServ.MakeNotifictionReaded(id);
+    for (let i = 0; i < this.AllNotifications.length; i++) {
+      if (this.AllNotifications[i]['id'] === id) {
+        this.AllNotifications.splice(i, 1);
+        this.notificationsNumber = this.AllNotifications.length;
+      }
+    }
   }
   changeTheme(value: string) {
     this.themeClass = value;

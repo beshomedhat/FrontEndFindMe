@@ -1,4 +1,54 @@
-<div class="p-5">
-    <p>user-dash-main works!</p>
+<div class="container my-4">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>DashBoard Control</mat-card-title>
+      <mat-card-subtitle>Here All Actions You Need</mat-card-subtitle>
+      <div class="spacer"></div>
+    </mat-card-header>
+    <mat-card-content class="bts-controls2">
+      <button
+        class="m-2"
+        mat-button
+        color="warn"
+        aria-label="Identfy Person"
+        matTooltip="Identfy Person"
+        matTooltipPosition="above"
+        [routerLink]="['/dashboard/humans/persons/identfy']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>perm_identity</mat-icon>Search For Person By Image
+      </button>
+    </mat-card-content>
+    <mat-card-actions class="bts-controls">
+      <button
+        class="m-2"
+        mat-button
+        color="accent"
+        aria-label="Add Item"
+        matTooltip="Add Item"
+        matTooltipPosition="above"
+        [routerLink]="['/dashboard/items/create']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>add_box</mat-icon>Add Item
+      </button>
+      <button
+        class="m-2"
+        mat-button
+        color="accent"
+        aria-label="Add Person"
+        matTooltip="Add Person"
+        matTooltipPosition="above"
+        [routerLink]="['/dashboard/humans/persons/create']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>add_box</mat-icon>Add Person
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults" color="accent">
+      Uploadind....
+    </mat-spinner>
+  </div>
 </div>
-

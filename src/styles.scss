@@ -30,7 +30,8 @@
 @import "~bootstrap/scss/bootstrap";
 
 @import "~ngx-toastr/toastr";
-
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 @font-face {
   font-family: Big_Shoulders_Display;
   src: url(assets/fonts/Big_Shoulders_Display/BigShouldersDisplay-Regular.ttf)

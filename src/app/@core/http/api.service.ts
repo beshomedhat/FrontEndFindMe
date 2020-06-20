@@ -10,6 +10,12 @@ import { Router } from '@angular/router';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
+const httpOptions2 = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  }),
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -161,15 +167,14 @@ export class ApiService {
       catchError((e) => throwError(e))
     );
   }
+  getMatchedItems() {
+    return this.http
+      .get(`${env.apiRoot}/auth/matching/items`, httpOptions2)
+      .pipe(
+        map((res) => {
+          return res;
+        }),
+        catchError((e) => throwError(e))
+      );
+  }
 } //end of class
-// export class ApiService {
-//   constructor(http) {
-//     this.http = http;
-//   }
-
-//   get(path) {
-//     return this.http
-//       .get(path)
-//       .pipe(catchError((e) => throwError(e)));
-//   }
-// }

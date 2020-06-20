@@ -14,6 +14,7 @@ import { AuthModule } from 'app/@auth/auth.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 // import { AngularFireModule } from '@angular/fire';
 // import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -118,6 +119,7 @@ export class SentryErrorHandler implements ErrorHandler {
     SharedModule,
     AuthModule,
     DashboardModule,
+    CarouselModule,
     // AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFirestoreModule,
     // AngularLaravelEchoModule.forRoot(echoConfig),
