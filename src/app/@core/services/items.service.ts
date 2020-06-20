@@ -122,4 +122,14 @@ export class ItemsService {
         catchError((e) => throwError(e))
       );
   }
+  markAsReturned(id: number) {
+    return this.http
+      .get(`${env.apiRoot}/auth/items/markasreturned/${id}`, httpOptions)
+      .pipe(
+        map((res) => {
+          return res['data'];
+        }),
+        catchError((e) => throwError(e))
+      );
+  }
 } //end of class

@@ -62,6 +62,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'matching',
+    loadChildren: () =>
+      import('app/modules/dashboard/matching/matching.module').then(
+        (m) => m.MatchingModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

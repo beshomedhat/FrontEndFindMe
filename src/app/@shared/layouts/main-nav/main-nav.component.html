@@ -23,7 +23,10 @@
     </mat-toolbar>
 
     <mat-nav-list>
-      <mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active"
+      <mat-list-item
+        [routerLink]="['/dashboard']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         ><mat-icon color="primary">dashboard</mat-icon
         ><span class="mx-2">Dashboard</span></mat-list-item
       >
@@ -43,7 +46,7 @@
         ><mat-icon color="primary">swap_vert</mat-icon
         ><span class="mx-2">Incoming Requests</span></mat-list-item
       >
-      <mat-list-item routerLink="requests" routerLinkActive="active"
+      <mat-list-item routerLink="/dashboard/matching" routerLinkActive="active"
         ><mat-icon color="primary">done_all</mat-icon
         ><span class="mx-2">My-Matchs</span></mat-list-item
       >
@@ -63,6 +66,7 @@
       </div>
       <span>FindME</span>
       <div class="spacer"></div>
+      <!--------------------------For Searching ------------------------ -->
       <form class="example-form">
         <mat-form-field class="example-full-width" appearance="legacy">
           <input
@@ -110,7 +114,7 @@
             >notifications</mat-icon
           >
         </button>
-        <mat-menu #notificationsMenu="matMenu">
+        <mat-menu #notificationsMenu="matMenu" class="my-menu">
           <ng-container *ngFor="let notification of AllNotifications">
             <button
               mat-menu-item
@@ -118,7 +122,8 @@
               routerLinkActive="router-link-active"
               (click)="markAsReaded(notification['id'])"
             >
-              {{ notification["body"] }}
+              <mat-icon class="mat-18">{{ notification["icon"] }}</mat-icon
+              >{{ notification["body"] }}
             </button>
           </ng-container>
         </mat-menu>
@@ -132,19 +137,19 @@
           <mat-icon>palette</mat-icon>
         </button>
         <mat-menu #themeMenu="matMenu">
-          <button mat-menu-item (click)="changrTheme('my-dark-theme')">
+          <button mat-menu-item (click)="changeTheme('my-dark-theme')">
             <mat-icon>opacity</mat-icon>
             <span>Dark</span>
           </button>
-          <button mat-menu-item (click)="changrTheme('my-light-theme')">
+          <button mat-menu-item (click)="changeTheme('my-light-theme')">
             <mat-icon>invert_colors</mat-icon>
             <span>Light</span>
           </button>
-          <button mat-menu-item (click)="changrTheme('my-theme')">
+          <button mat-menu-item (click)="changeTheme('my-theme')">
             <mat-icon>invert_colors_off</mat-icon>
             <span>Default</span>
           </button>
-          <button mat-menu-item (click)="changrTheme('findme-theme')">
+          <button mat-menu-item (click)="changeTheme('findme-theme')">
             <mat-icon>invert_colors_off</mat-icon>
             <span>FindME</span>
           </button>

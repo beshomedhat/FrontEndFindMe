@@ -39,6 +39,10 @@ const routes: Routes = [
       import('app/@auth/auth.module').then((m) => m.AuthModule),
     canActivateChild: [GuestGuardService],
   },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({

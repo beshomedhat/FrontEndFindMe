@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
@@ -6,8 +6,10 @@ import { AuthService } from 'app/@auth/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '@@shared/pages/snackbar/snackbar.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { ThemeService } from '@@core/services/theme-service.service';
 import { FormControl } from '@angular/forms';
-
+import { Item } from '@@shared/models/item';
+import { HttpClient } from '@angular/common/http';
 import { ItemsService } from '@@core/services/items.service';
 import { NotificationsService } from '@@core/services/notifications.service';
 
@@ -18,13 +20,18 @@ import { NotificationsService } from '@@core/services/notifications.service';
 })
 export class MainNavComponent implements OnInit {
   @Input() themeColor = '';
-  userDetails;
+  // use this to set correct theme class on app holder
+  // eg: <div [class]="themeClass">...</div>
+  // 'my-dark-theme',
+  //     'my-light-theme',
+  //     'purple-green',
+  /*-------------------User Details------------------------*/
+  userDetails = {};
   defImg = '../../../../assets/imgs/undraw_profile_pic_ic5t.svg';
-  isDarkTheme: Observable<boolean>;
+  /*-------------------AllNotifications------------------------*/
   notificationsNumber = '';
   AllNotifications = [];
-  themeClass: string = 'findme-theme';
-  logOutLoading = false;
+  /*---------------------BreakPoints Ratio---------------------------*/
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -35,6 +42,11 @@ export class MainNavComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<any>;
   //-----------------------------------------------------------
+  isDarkTheme: Observable<boolean>;
+  themeClass: string = localStorage.getItem('defaultTheme')
+    ? localStorage.getItem('defaultTheme')
+    : 'findme-theme';
+  logOutLoading = false;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
@@ -45,8 +57,8 @@ export class MainNavComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private notificationServ: NotificationsService
   ) {}
-
   ngOnInit(): void {
+    /*---------------- For Theming-------------------*/
     // remove old theme class and add new theme class
     // we're removing any css class that contains '-theme' string but your theme classes can follow any pattern
     const overlayContainerClasses = this.overlayContainer.getContainerElement()
@@ -58,7 +70,7 @@ export class MainNavComponent implements OnInit {
       overlayContainerClasses.remove(...themeClassesToRemove);
     }
     overlayContainerClasses.add('my-theme');
-    //////////////////////////////////////////////////////////
+    /*---------------- For Searching-------------------*/
     this.myControl.valueChanges.subscribe((res) => {
       if (res !== '' && res !== null && res !== ' ') {
         this.filteredOptions = this.itemServ.getFilters(
@@ -66,13 +78,13 @@ export class MainNavComponent implements OnInit {
         );
       }
     });
-
-    //////////////////////////////////////////////////////////
-
-    this.actRoute.data.subscribe((res) => {
-      this.userDetails = res['item'];
+    /*---------------- For UserDetails-------------------*/
+    this.authService.getDetails().subscribe((res) => {
+      this.userDetails = res['data'];
     });
+    /*---------------- For notification-------------------*/
     this.notificationServ.getAllNotifictions().subscribe((res) => {
+      console.log('res res : ', res);
       this.notificationsNumber = res.length;
       res.forEach((element) => {
         let elementData = [];
@@ -80,24 +92,34 @@ export class MainNavComponent implements OnInit {
         elementData['id'] = element['id'];
         if (element['type'].includes('RequestChangeStatus')) {
           elementData['url'] = 'requests/view/' + element['data']['request_id'];
+          elementData['icon'] = 'notification_important';
         }
         if (element['type'].includes('CreateRequest')) {
           elementData['url'] =
             'increquests/view/' + element['data']['request_id'];
+          elementData['icon'] = 'wifi_protected_setup';
+        }
+        if (element['type'].includes('MatchingItems')) {
+          elementData['url'] = 'dashboard/matching';
+          elementData['icon'] = 'group_work';
+        }
+        if (element['type'].includes('SendMessage')) {
+          elementData['url'] = 'dashboard/chat/' + element['data']['chat_id'];
+          elementData['icon'] = 'message';
         }
         this.AllNotifications.push(elementData);
       });
     });
-  }
+    /*----------------------------------------------------------*/
+  } //end Of NgONInit
   markAsReaded(id: string) {
     this.notificationServ.MakeNotifictionReaded(id);
   }
-  // toggleDarkTheme(checked: boolean) {
-  //   this.themeService.setDarkTheme(checked);
-  // }
-  changrTheme(value: string) {
+  changeTheme(value: string) {
     this.themeClass = value;
+    localStorage.setItem('defaultTheme', value);
   }
+  /*------------------LogOut------------------------ */
   logout() {
     if (localStorage.getItem('isAuth') == 'false') {
       this.snackbar.show(
@@ -112,6 +134,7 @@ export class MainNavComponent implements OnInit {
           localStorage.removeItem('access_token');
           this.authService.setIsAuthenticated(false);
           localStorage.setItem('isAuth', 'false');
+          localStorage.setItem('defaultTheme', '');
           this.snackbar.show('Logged Out Successfully', 'success');
           this.router.navigate(['/home']);
         })
@@ -121,4 +144,5 @@ export class MainNavComponent implements OnInit {
         .finally(() => {});
     }
   }
+  /*------------------------------------------------ */
 } //end of class

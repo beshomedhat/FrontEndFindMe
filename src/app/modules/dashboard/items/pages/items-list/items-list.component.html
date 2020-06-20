@@ -6,7 +6,7 @@
       <div class="spacer"></div>
       <button
         mat-button
-        color="primary"
+        color="accent"
         aria-label="Add Item"
         matTooltip="Add Item"
         matTooltipPosition="left"
@@ -15,15 +15,43 @@
       >
         <mat-icon>add_box</mat-icon>Add Item
       </button>
+      <button
+        mat-button
+        color="accent"
+        aria-label="Add Person"
+        matTooltip="Add Item"
+        matTooltipPosition="left"
+        [routerLink]="['/dashboard/humans/persons/create']"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>add_box</mat-icon>Add Person
+      </button>
     </mat-card-header>
     <mat-card-content> </mat-card-content>
   </mat-card>
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults" color="accent">
+      Uploadind....
+    </mat-spinner>
+  </div>
   <mat-grid-list cols="4" rowHeight="100px">
     <ng-container *ngFor="let item of items; let i = index">
       <mat-card class="my-2">
         <mat-card-header>
           <mat-card-title>{{ item.name }}</mat-card-title>
           <mat-card-subtitle>{{ item.category }}</mat-card-subtitle>
+          <div class="spacer"></div>
+          <mat-chip-list aria-label="Request Status">
+            <mat-chip color="accent" *ngIf="item.is_found == 1" selected
+              >Found Item</mat-chip
+            >
+            <mat-chip color="warn" *ngIf="item.is_found == 0" selected
+              >Lost Items</mat-chip
+            >
+            <mat-chip color="primary" *ngIf="item.is_found == -1" selected
+              >Returned Item</mat-chip
+            >
+          </mat-chip-list>
         </mat-card-header>
         <img
           matCardImage
@@ -40,7 +68,7 @@
         <mat-card-actions class="d-flex justify-content-around">
           <button
             class="matBtn"
-            color="accent"
+            color="warn"
             mat-icon-button
             aria-label="Delete Item"
             matTooltip="Delete Item"
@@ -52,7 +80,7 @@
           <button
             class="matBtn"
             mat-icon-button
-            color="primary"
+            color="accent"
             aria-label="Update Item"
             matTooltip="Update Item"
             matTooltipPosition="above"
@@ -64,9 +92,9 @@
           <button
             class="matBtn"
             mat-icon-button
-            color="primary"
-            aria-label="Update Item"
-            matTooltip="Update Item"
+            color="accent"
+            aria-label="View Item"
+            matTooltip="View Item"
             matTooltipPosition="above"
             [routerLink]="['/dashboard/items/view', item.id]"
             routerLinkActive="router-link-active"
@@ -76,12 +104,11 @@
           <button
             class="matBtn"
             mat-icon-button
-            color="primary"
-            aria-label="Update Item"
-            matTooltip="Update Item"
+            color="warn"
+            aria-label="Mark As Returned Item"
+            matTooltip="Mark As Returned Item"
             matTooltipPosition="above"
-            [routerLink]="['/dashboard/items/update', item.id]"
-            routerLinkActive="router-link-active"
+            (click)="markAsReturned(item.id)"
           >
             <mat-icon>fingerprint</mat-icon>
           </button>

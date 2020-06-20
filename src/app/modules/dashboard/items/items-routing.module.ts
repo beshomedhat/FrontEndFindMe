@@ -63,7 +63,6 @@ const routes: Routes = [
     component: UpadteQuestionsComponent,
     resolve: { item: ItemUpdateQuestionsResolver },
   },
-
   {
     path: '**',
     component: NotFoundComponent,

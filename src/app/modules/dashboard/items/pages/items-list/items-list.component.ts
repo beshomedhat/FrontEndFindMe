@@ -11,8 +11,15 @@ import { Router } from '@angular/router';
 })
 export class ItemsListComponent implements OnInit, OnDestroy {
   items: Item[] = [];
+  isLoadingResults = true;
   options = {
     title: 'Are Sure To Delete This Item',
+    message: 'Please Take An Action { You Press Esc or Enter to the Action }',
+    cancelText: 'Cancel',
+    confirmText: 'Confirm',
+  };
+  options2 = {
+    title: 'Are Sure To Archive This Item',
     message: 'Please Take An Action { You Press Esc or Enter to the Action }',
     cancelText: 'Cancel',
     confirmText: 'Confirm',
@@ -26,25 +33,47 @@ export class ItemsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.itemService.getAllItems('items').subscribe((res) => {
       this.items = res['data'];
-      console.log(' this.items ', this.items);
+      this.isLoadingResults = false;
     });
   }
   deleteItem(id) {
     this.dialogService.open(this.options);
     this.dialogService.confirmed().subscribe((confirmed) => {
+      this.isLoadingResults = true;
       if (confirmed) {
         this.itemService.deleteItem(id, 'items').subscribe(
           (res) => {
+            this.isLoadingResults = false;
             this.snackbarService.show('Item Deleted Successfully', 'success');
             this.router.navigate(['/dashboard/items']);
           },
           (err) => {
+            this.isLoadingResults = false;
             this.snackbarService.show(err['statusText'], 'danger');
           }
         );
       }
     });
-    // this.apiserv.deleteCheck(id, value);
+  }
+  markAsReturned(id: number) {
+    this.dialogService.open(this.options2);
+    this.dialogService.confirmed().subscribe((confirmed) => {
+      this.isLoadingResults = true;
+      if (confirmed) {
+        this.itemService.markAsReturned(id).subscribe(
+          (res) => {
+            this.snackbarService.show('Item Archived Successfully', 'success');
+            this.isLoadingResults = false;
+            this.router.navigate(['/dashboard/items']);
+          },
+          (err) => {
+            this.snackbarService.show(err['statusText'], 'danger');
+            this.isLoadingResults = false;
+            console.log('err :', err);
+          }
+        );
+      }
+    });
   }
   ngOnDestroy() {}
 } //end of class

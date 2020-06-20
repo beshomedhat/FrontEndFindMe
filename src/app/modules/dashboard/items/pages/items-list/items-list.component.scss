@@ -1,62 +1,12 @@
-$firstColor: #00bfa6;
-$secondColor: #f9a826;
-
-.id-item {
-  width: 80%;
-}
-.icon-parent {
-  width: 20%;
-}
-.icon-F-L {
-  border: 1px transparent solid;
-  width: 30px;
-  height: 30px;
-  padding: 15px;
-}
-.icon-F {
-  background-color: $firstColor;
-  color: white;
-}
-.icon-L {
-  border: 1px $secondColor solid;
-  color: black;
-}
-.header-p {
-  font-size: 14px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
-.icon-mine {
-  background-color: white;
-  color: $firstColor;
-  cursor: pointer;
-  font-size: 22px;
-}
-.icon-mine:hover {
-  color: $secondColor;
-}
-.img-height {
-  height: 250px;
-}
-
-.item {
-  transition: transform 1s;
-  background-color: white;
-  cursor: pointer;
-  color: gray;
-}
-
-.item:hover {
-  box-shadow: 0px 0px 20px rgba(33, 33, 33, 0.2);
-  transform: scale(1.05, 1.05);
-}
-.item:hover h2,
-.item:hover h3 {
-  color: $secondColor;
-}
-.item:hover p {
-  font-weight: bolder;
-}
-.itemCard:hover {
-  z-index: 99;
+.example-loading-shade {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
